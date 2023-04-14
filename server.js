@@ -3,13 +3,18 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
 const { logger, logEvents } = require('./middleware/logEvents');
 const errorHandler = require('./middleware/errorHandler');
+const mongoose = require('mongoose');
+const connectDB = require('./config/dbConn');
 
 const PORT = process.env.PORT || 3000;
 
+connectDB();
+
 app.use(logger);
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -25,6 +30,7 @@ app.all('*', (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+mongoose.connection.once('open', () => {
+    logEvents('Connected to MongoDB', 'dbAccessLog.txt');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
