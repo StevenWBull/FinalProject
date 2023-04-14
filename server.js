@@ -13,7 +13,15 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.get('/', require('./routes/root'));
+app.use('/', require('./routes/root'));
+
+app.all('*', (req, res) => {
+    res.status(404);
+
+    return req.accepts('json') 
+        ? res.json({ "error": "404 Not Found" }) 
+        : res.type('txt').send("404 Not Found");
+});
 
 app.use(errorHandler);
 
