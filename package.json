@@ -4,7 +4,8 @@
   "description": "Steven Bull Final Project for INF 653",
   "main": "server.js",
   "scripts": {
-    "test": "test server.js"
+    "test": "test server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,15 @@
   "bugs": {
     "url": "https://github.com/StevenWBull/FinalProject/issues"
   },
-  "homepage": "https://github.com/StevenWBull/FinalProject#readme"
+  "homepage": "https://github.com/StevenWBull/FinalProject#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
