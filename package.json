@@ -1,0 +1,19 @@
+{
+  "name": "finalproject",
+  "version": "1.0.0",
+  "description": "Steven Bull Final Project for INF 653",
+  "main": "server.js",
+  "scripts": {
+    "test": "test server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StevenWBull/FinalProject.git"
+  },
+  "author": "Steven Bull",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/StevenWBull/FinalProject/issues"
+  },
+  "homepage": "https://github.com/StevenWBull/FinalProject#readme"
+}
