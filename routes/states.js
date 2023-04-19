@@ -8,6 +8,9 @@ stateRouter.get("/", statesController.getAllStates);
 // Route for /states/?contig=true
 stateRouter.get("/", statesController.getStatesByContiguity);
 
+// Verify :state is a valid state code
+stateRouter.get("/:state*", statesController.verifyStateCode);
+
 // Route for /states/:state
 stateRouter.get("/:state", statesController.getStateInfo);
 

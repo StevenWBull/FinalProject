@@ -3,14 +3,14 @@ const Schema = mongoose.Schema;
 
 const stateSchema = new Schema({
     stateCode: {
-      type: String,
-      required: true,
-      unique: true
+        type: String,
+        required: true,
+        unique: true
     },
     funfacts: {
-      type: [String],
-      default: []
+        type: [String],
+        default: []
     }
-  });
+});
 
 module.exports = mongoose.model('State', stateSchema);
