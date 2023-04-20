@@ -1,6 +1,5 @@
 const State = require('../models/State');
 const validateStateCode = require("../middleware/validateStateCode");
-const send404 = require("../middleware/send404");
 const statesData = require('../models/statesData.json');
 
 const verifyStateCode = async (req, res, next) => {
