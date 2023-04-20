@@ -7,7 +7,9 @@ const verifyStateCode = async (req, res, next) => {
     const stateCode = req.params.state;
     const isValidStateCode = validateStateCode(stateCode);
 
-    return isValidStateCode ? next() : send404(req, res);
+    return isValidStateCode 
+        ? next() 
+        : res.json({ message: "Invalid state abbreviation parameter" });
 };
 
 /* 
