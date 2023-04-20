@@ -7,7 +7,7 @@
     "test": "test server.js",
     "dev": "nodemon server.js"
   },
-  "enginer": {
+  "engine": {
     "node": "14.x"
   },
   "repository": {
