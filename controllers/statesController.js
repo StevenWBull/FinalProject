@@ -15,7 +15,7 @@ const verifyStateCode = async (req, res, next) => {
 */
 const addFunFacts = async (stateData) => {
     const stateDataWithFunFacts = stateData.map(async s => {
-        const stateDBData = await State.findOne({ stateCode: s.code }, 'funfacts');
+        const stateDBData = await State.findOne({ stateCode: s.code }).exec();
         const funfacts = stateDBData?.funfacts ? stateDBData.funfacts : [];
         return { ...s, funfacts };
     });
@@ -58,7 +58,7 @@ const getStateInfo = async (req, res) => {
 
 const getFunFact = async (req, res) => {
     const stateCode = req.params.state;
-    const stateDBData = await State.findOne({ stateCode: stateCode.toUpperCase() }, 'funfacts');
+    const stateDBData = await State.findOne({ stateCode: stateCode.toUpperCase() }).exec();
     const funfactsArr = stateDBData?.funfacts ? stateDBData.funfacts : [];
     const randomIndex = Math.floor(Math.random() * funfactsArr.length);
 
@@ -131,7 +131,32 @@ const patchFunFact = async (req, res) => {
 };
 
 const deleteFunFact = async (req, res) => {
-    res.json({ message: "DELETE /states/:state/funfact" });
+    const stateCode = req.params.state;
+    let index = req.body.index;
+    let validIndex = false;
+
+    try {
+        index = parseInt(index);
+        validIndex = index > 0;;
+    } catch (e) {
+        validIndex = false;
+    }
+
+    if (!validIndex)
+        return res.status(400).json({ message: "State fun fact index value required" });
+
+    const state = await State.findOne({ stateCode: stateCode.toUpperCase() }).exec();
+    const funfactsArr = state?.funfacts ? state.funfacts : [];
+    const stateData = statesData.find(s => s.code === stateCode.toUpperCase());
+
+    if (index > funfactsArr.length)
+        return res.status(400).json({ message: `No Fun Fact found at that index for ${stateData.state}`});
+
+    funfactsArr.splice(index - 1, 1);
+    state.funfacts = funfactsArr;
+    const updatedState = await state.save();
+
+    res.json(updatedState);
 };
 
 module.exports = {
@@ -143,5 +168,8 @@ module.exports = {
     getCapital,
     getNickname,
     getPopulation,
-    getAdmissionDate
+    getAdmissionDate,
+    postFunFact,
+    patchFunFact,
+    deleteFunFact
 };

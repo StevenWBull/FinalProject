@@ -9,13 +9,16 @@ stateRouter.get("/", statesController.getAllStates);
 stateRouter.get("/", statesController.getStatesByContiguity);
 
 // Verify :state is a valid state code
-stateRouter.get("/:state*", statesController.verifyStateCode);
+stateRouter.all("/:state*", statesController.verifyStateCode);
 
 // Route for /states/:state
 stateRouter.get("/:state", statesController.getStateInfo);
 
 // Route for /states/:state/funfact
 stateRouter.get("/:state/funfact", statesController.getFunFact);
+stateRouter.post("/:state/funfact", statesController.postFunFact);
+stateRouter.patch("/:state/funfact", statesController.patchFunFact);
+stateRouter.delete("/:state/funfact", statesController.deleteFunFact);
 
 // Route for /states/:state/capital
 stateRouter.get("/:state/capital", statesController.getCapital);
