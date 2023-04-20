@@ -1,0 +1,2 @@
+20230419	15:53:23	d8aa5605-4ca8-40c2-9409-0f473525dc36	ReferenceError: path is not defined
+20230419	15:53:55	44a26888-cd23-41bc-83d9-1b26371cf8b7	Error: ENOENT: no such file or directory, stat '/Users/sbull/Code/Projects/FortHays/INF653/FinalProject/middleware/views/404.html'
