@@ -123,7 +123,30 @@ const getAdmissionDate = async (req, res) => {
 };
 
 const postFunFact = async (req, res) => {
-    res.json({ message: "POST /states/:state/funfact" });
+    const stateCode = req.params.state;
+    const funfactsBodyArr = req.body.funfacts;
+
+    if (!funfactsBodyArr)
+        return res.status(400).json({ message: "State fun facts value required" });
+
+    if (!Array.isArray(funfactsBodyArr))
+        return res.status(400).json({ message: "State fun facts value must be an array" });
+
+    let state = await State.findOne({ stateCode: stateCode.toUpperCase() }).exec();
+
+    // if state does NOT exists, add MongoDB document
+    if (!state) {
+        state = await State.create({
+            stateCode: stateCode.toUpperCase(),
+            funfacts: funfactsBodyArr
+        });
+    } else {
+        // if state exists, update MongoDB document
+        state.funfacts = [...state.funfacts, ...funfactsBodyArr];
+        state.save();
+    }
+
+    res.status(201).json(state);
 };
 
 const patchFunFact = async (req, res) => {
