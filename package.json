@@ -7,6 +7,9 @@
     "test": "test server.js",
     "dev": "nodemon server.js"
   },
+  "enginer": {
+    "node": "14.x"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/StevenWBull/FinalProject.git"
