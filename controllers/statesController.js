@@ -150,7 +150,36 @@ const postFunFact = async (req, res) => {
 };
 
 const patchFunFact = async (req, res) => {
-    res.json({ message: "PATCH /states/:state/funfact" });
+    const stateCode = req.params.state;
+    const funfactsBodyStr = req.body.funfact;
+    let index = req.body.index;
+    let validIndex = false;
+
+    try {
+        index = parseInt(index);
+        validIndex = index > 0;;
+    } catch (e) {
+        validIndex = false;
+    }
+    
+    if (!validIndex)
+        return res.status(400).json({ message: "State fun fact index value required" });
+
+    if (!funfactsBodyStr || typeof funfactsBodyStr !== "string")
+        return res.status(400).json({ message: "State fun fact value required" });
+
+    const state = await State.findOne({ stateCode: stateCode.toUpperCase() }).exec();
+    const funfactsArr = state?.funfacts ? state.funfacts : [];
+    const stateData = statesData.find(s => s.code === stateCode.toUpperCase());
+
+    if (index > funfactsArr.length)
+        return res.status(400).json({ message: `No Fun Fact found at that index for ${stateData.state}`});
+
+    funfactsArr[index - 1] = funfactsBodyStr;
+    state.funfacts = funfactsArr;
+    state.save();
+
+    res.json(state);
 };
 
 const deleteFunFact = async (req, res) => {
