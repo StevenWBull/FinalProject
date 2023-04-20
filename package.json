@@ -4,6 +4,7 @@
   "description": "Steven Bull Final Project for INF 653",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "test server.js",
     "dev": "nodemon server.js"
   },
