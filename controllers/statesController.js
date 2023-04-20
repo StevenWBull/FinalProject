@@ -62,11 +62,13 @@ const getFunFact = async (req, res) => {
     const funfactsArr = stateDBData?.funfacts ? stateDBData.funfacts : [];
     const randomIndex = Math.floor(Math.random() * funfactsArr.length);
 
+    const stateData = statesData.find(s => s.code === stateCode.toUpperCase());
+
     // Return a fun fact about the specified state
     res.json(
         funfactsArr.length 
         ? { funfact: funfactsArr[randomIndex]} 
-        : {}
+        : { message: `No Fun Facts found for ${stateData.state}`}
     );
 };
 
@@ -172,6 +174,9 @@ const patchFunFact = async (req, res) => {
     const funfactsArr = state?.funfacts ? state.funfacts : [];
     const stateData = statesData.find(s => s.code === stateCode.toUpperCase());
 
+    if (!funfactsArr.length)
+        return res.status(400).json({ message: `No Fun Facts found for ${stateData.state}`});
+
     if (index > funfactsArr.length)
         return res.status(400).json({ message: `No Fun Fact found at that index for ${stateData.state}`});
 
@@ -200,6 +205,9 @@ const deleteFunFact = async (req, res) => {
     const state = await State.findOne({ stateCode: stateCode.toUpperCase() }).exec();
     const funfactsArr = state?.funfacts ? state.funfacts : [];
     const stateData = statesData.find(s => s.code === stateCode.toUpperCase());
+
+    if (!funfactsArr.length)
+        return res.status(400).json({ message: `No Fun Facts found for ${stateData.state}`});
 
     if (index > funfactsArr.length)
         return res.status(400).json({ message: `No Fun Fact found at that index for ${stateData.state}`});
