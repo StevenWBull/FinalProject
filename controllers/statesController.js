@@ -17,7 +17,7 @@ const addFunFacts = async (stateData) => {
     const stateDataWithFunFacts = stateData.map(async s => {
         const stateDBData = await State.findOne({ stateCode: s.code }).exec();
         const funfacts = stateDBData?.funfacts ? stateDBData.funfacts : [];
-        return { ...s, funfacts };
+        return funfacts.length ? { ...s, funfacts } : s;
     });
 
     return await Promise.all(stateDataWithFunFacts);
